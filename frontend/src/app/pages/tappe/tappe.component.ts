@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ApiService } from '../../core/api.service';
 import { Tappa } from '../../core/models';
@@ -10,14 +15,25 @@ import { ModalComponent } from '../../shared/modal.component';
 @Component({
   selector: 'app-tappe',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, ModalComponent, RouterLink],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ModalComponent,
+    RouterLink,
+  ],
   template: `
     <div class="view-head view-head-riga">
       <div>
         <h1>Tappe</h1>
-        <p>Percorso della corsa: partenza, arrivo, profilo altimetrico e stato di ciascuna tappa.</p>
+        <p>
+          Percorso della corsa: partenza, arrivo, profilo altimetrico e stato di
+          ciascuna tappa.
+        </p>
       </div>
-      <button class="btn btn-primary" type="button" (click)="apriNuovo()">+ Nuova tappa</button>
+      <button class="btn btn-primary" type="button" (click)="apriNuovo()">
+        + Nuova tappa
+      </button>
     </div>
 
     @if (caricamento) {
@@ -48,14 +64,34 @@ import { ModalComponent } from '../../shared/modal.component';
                 <td>{{ t.nome }}</td>
                 <td>{{ t.partenza }} → {{ t.arrivo }}</td>
                 <td>{{ t.distanza_km ?? '—' }}</td>
-                <td><span class="badge badge-viola">{{ t.tipo }}</span></td>
                 <td>
-                  <span class="badge" [class]="classeStato(t.stato)">{{ etichettaStato(t.stato) }}</span>
+                  <span class="badge badge-viola">{{ t.tipo }}</span>
+                </td>
+                <td>
+                  <span class="badge" [class]="classeStato(t.stato)">{{
+                    etichettaStato(t.stato)
+                  }}</span>
                 </td>
                 <td class="col-azioni">
-                  <a class="btn btn-secondary btn-sm" [routerLink]="['/tappe', t.id, 'risultati']">Risultati</a>
-                  <button class="btn btn-secondary btn-sm" type="button" (click)="apriModifica(t)">Modifica</button>
-                  <button class="btn btn-danger btn-sm" type="button" (click)="elimina(t)">Elimina</button>
+                  <a
+                    class="btn btn-secondary btn-sm"
+                    [routerLink]="['/tappe', t.id, 'risultati']"
+                    >Risultati</a
+                  >
+                  <button
+                    class="btn btn-secondary btn-sm"
+                    type="button"
+                    (click)="apriModifica(t)"
+                  >
+                    Modifica
+                  </button>
+                  <button
+                    class="btn btn-danger btn-sm"
+                    type="button"
+                    (click)="elimina(t)"
+                  >
+                    Elimina
+                  </button>
                 </td>
               </tr>
             }
@@ -65,7 +101,10 @@ import { ModalComponent } from '../../shared/modal.component';
     }
 
     @if (modaleAperto) {
-      <app-modal [titolo]="form.value.id ? 'Modifica tappa' : 'Nuova tappa'" (chiudi)="chiudiModale()">
+      <app-modal
+        [titolo]="form.value.id ? 'Modifica tappa' : 'Nuova tappa'"
+        (chiudi)="chiudiModale()"
+      >
         <form [formGroup]="form" class="form-grid" (ngSubmit)="salva()">
           <div class="campo">
             <label for="numero">Numero tappa</label>
@@ -77,7 +116,12 @@ import { ModalComponent } from '../../shared/modal.component';
           </div>
           <div class="campo largo">
             <label for="nome">Nome tappa</label>
-            <input id="nome" type="text" formControlName="nome" placeholder="es. Cuneo - Sestriere" />
+            <input
+              id="nome"
+              type="text"
+              formControlName="nome"
+              placeholder="es. Cuneo - Sestriere"
+            />
           </div>
           <div class="campo">
             <label for="partenza">Partenza</label>
@@ -89,11 +133,20 @@ import { ModalComponent } from '../../shared/modal.component';
           </div>
           <div class="campo">
             <label for="distanza">Distanza (km)</label>
-            <input id="distanza" type="number" step="0.1" formControlName="distanza_km" />
+            <input
+              id="distanza"
+              type="number"
+              step="0.1"
+              formControlName="distanza_km"
+            />
           </div>
           <div class="campo">
             <label for="dislivello">Dislivello (m)</label>
-            <input id="dislivello" type="number" formControlName="dislivello_m" />
+            <input
+              id="dislivello"
+              type="number"
+              formControlName="dislivello_m"
+            />
           </div>
           <div class="campo">
             <label for="tipo">Tipo di tappa</label>
@@ -113,13 +166,26 @@ import { ModalComponent } from '../../shared/modal.component';
             </select>
           </div>
           <div class="campo campo-checkbox largo">
-            <input id="abbuoni" type="checkbox" formControlName="abbuoni_attivi" />
-            <label for="abbuoni">Abbuoni di classifica attivi su questa tappa</label>
+            <input
+              id="abbuoni"
+              type="checkbox"
+              formControlName="abbuoni_attivi"
+            />
+            <label for="abbuoni"
+              >Abbuoni di classifica attivi su questa tappa</label
+            >
           </div>
         </form>
         <div modal-footer>
-          <button class="btn btn-ghost" type="button" (click)="chiudiModale()">Annulla</button>
-          <button class="btn btn-primary" type="button" [disabled]="form.invalid || salvataggio" (click)="salva()">
+          <button class="btn btn-ghost" type="button" (click)="chiudiModale()">
+            Annulla
+          </button>
+          <button
+            class="btn btn-primary"
+            type="button"
+            [disabled]="form.invalid || salvataggio"
+            (click)="salva()"
+          >
             {{ salvataggio ? 'Salvataggio…' : 'Salva' }}
           </button>
         </div>
@@ -168,15 +234,25 @@ export class TappeComponent implements OnInit {
   }
 
   etichettaStato(s: Tappa['stato']): string {
-    return { programmata: 'Programmata', in_corso: 'In corso', conclusa: 'Conclusa' }[s];
+    return {
+      programmata: 'Programmata',
+      in_corso: 'In corso',
+      conclusa: 'Conclusa',
+    }[s];
   }
 
   classeStato(s: Tappa['stato']): string {
-    return { programmata: 'badge-grigio', in_corso: 'badge-verde', conclusa: 'badge-rosa' }[s];
+    return {
+      programmata: 'badge-grigio',
+      in_corso: 'badge-verde',
+      conclusa: 'badge-rosa',
+    }[s];
   }
 
   apriNuovo(): void {
-    const prossimoNumero = this.tappe.length ? Math.max(...this.tappe.map((t) => t.numero_tappa)) + 1 : 1;
+    const prossimoNumero = this.tappe.length
+      ? Math.max(...this.tappe.map((t) => t.numero_tappa)) + 1
+      : 1;
     this.form.reset({
       id: null,
       numero_tappa: prossimoNumero,
@@ -218,7 +294,9 @@ export class TappeComponent implements OnInit {
     if (this.form.invalid) return;
     this.salvataggio = true;
     const { id, ...corpo } = this.form.getRawValue();
-    const richiesta = id ? this.api.aggiorna('tappe', id, corpo) : this.api.crea('tappe', corpo);
+    const richiesta = id
+      ? this.api.aggiorna('tappe', id, corpo)
+      : this.api.crea('tappe', corpo);
     richiesta.subscribe({
       next: () => {
         this.toast.successo(id ? 'Tappa aggiornata.' : 'Tappa creata.');
@@ -231,7 +309,12 @@ export class TappeComponent implements OnInit {
   }
 
   elimina(t: Tappa): void {
-    if (!confirm(`Eliminare la tappa "${t.nome}"? Verrà spostata nel cestino per 15 giorni.`)) return;
+    if (
+      !confirm(
+        `Eliminare la tappa "${t.nome}"? Verrà spostata nel cestino per 15 giorni.`,
+      )
+    )
+      return;
     this.api.elimina('tappe', t.id).subscribe(() => {
       this.toast.successo('Tappa spostata nel cestino.');
       this.carica();

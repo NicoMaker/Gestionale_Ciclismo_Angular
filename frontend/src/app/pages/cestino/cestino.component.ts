@@ -12,10 +12,15 @@ import { ToastService } from '../../core/toast.service';
     <div class="view-head view-head-riga">
       <div>
         <h1>Cestino</h1>
-        <p>Gli elementi eliminati restano qui 15 giorni prima di essere rimossi definitivamente.</p>
+        <p>
+          Gli elementi eliminati restano qui 15 giorni prima di essere rimossi
+          definitivamente.
+        </p>
       </div>
       @if (voci.length > 0) {
-        <button class="btn btn-danger" type="button" (click)="svuota()">Svuota cestino</button>
+        <button class="btn btn-danger" type="button" (click)="svuota()">
+          Svuota cestino
+        </button>
       }
     </div>
 
@@ -29,24 +34,48 @@ import { ToastService } from '../../core/toast.service';
       <div class="table-wrap">
         <table>
           <thead>
-            <tr><th>Tipo</th><th>Descrizione</th><th>Eliminato il</th><th>Scade</th><th class="col-azioni">Azioni</th></tr>
+            <tr>
+              <th>Tipo</th>
+              <th>Descrizione</th>
+              <th>Eliminato il</th>
+              <th>Scade</th>
+              <th class="col-azioni">Azioni</th>
+            </tr>
           </thead>
           <tbody>
             @for (v of voci; track v.id) {
               <tr>
-                <td><span class="badge badge-viola">{{ v.etichetta }}</span></td>
+                <td>
+                  <span class="badge badge-viola">{{ v.etichetta }}</span>
+                </td>
                 <td>{{ v.descrizione }}</td>
                 <td>{{ v.eliminato_il | date: 'dd/MM/yyyy HH:mm' }}</td>
                 <td>
                   @if (v.giorni_rimanenti <= 3) {
-                    <span class="badge badge-rosso">{{ v.giorni_rimanenti }} giorni</span>
+                    <span class="badge badge-rosso"
+                      >{{ v.giorni_rimanenti }} giorni</span
+                    >
                   } @else {
-                    <span class="badge badge-grigio">{{ v.giorni_rimanenti }} giorni</span>
+                    <span class="badge badge-grigio"
+                      >{{ v.giorni_rimanenti }} giorni</span
+                    >
                   }
                 </td>
                 <td class="col-azioni">
-                  <button class="btn btn-secondary btn-sm" type="button" (click)="ripristina(v)">Ripristina</button>
-                  <button class="btn btn-danger btn-sm" type="button" (click)="eliminaDefinitivo(v)">Elimina def.</button>
+                  <button
+                    class="btn btn-secondary btn-sm"
+                    type="button"
+                    (click)="ripristina(v)"
+                  >
+                    Ripristina
+                  </button>
+                  <button
+                    class="btn btn-danger btn-sm"
+                    type="button"
+                    (click)="eliminaDefinitivo(v)"
+                  >
+                    Elimina def.
+                  </button>
                 </td>
               </tr>
             }
@@ -83,7 +112,12 @@ export class CestinoComponent implements OnInit {
   }
 
   eliminaDefinitivo(v: VoceCestino): void {
-    if (!confirm('Eliminare definitivamente questo elemento? Non sarà più recuperabile.')) return;
+    if (
+      !confirm(
+        'Eliminare definitivamente questo elemento? Non sarà più recuperabile.',
+      )
+    )
+      return;
     this.api.elimina('cestino', v.id).subscribe(() => {
       this.toast.successo('Elemento eliminato definitivamente.');
       this.carica();
@@ -91,7 +125,10 @@ export class CestinoComponent implements OnInit {
   }
 
   svuota(): void {
-    if (!confirm('Svuotare completamente il cestino? L\'azione è irreversibile.')) return;
+    if (
+      !confirm("Svuotare completamente il cestino? L'azione è irreversibile.")
+    )
+      return;
     this.api.eliminaPercorso('cestino').subscribe(() => {
       this.toast.successo('Cestino svuotato.');
       this.carica();

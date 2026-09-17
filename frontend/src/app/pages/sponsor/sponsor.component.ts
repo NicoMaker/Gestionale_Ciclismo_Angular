@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ApiService } from '../../core/api.service';
 import { Sponsor } from '../../core/models';
 import { ToastService } from '../../core/toast.service';
@@ -14,13 +19,23 @@ import { ModalComponent } from '../../shared/modal.component';
     <div class="view-head view-head-riga">
       <div>
         <h1>Sponsor</h1>
-        <p>Anagrafica degli sponsor della corsa, collegabili alle squadre in "Sponsor per squadra".</p>
+        <p>
+          Anagrafica degli sponsor della corsa, collegabili alle squadre in
+          "Sponsor per squadra".
+        </p>
       </div>
-      <button class="btn btn-primary" type="button" (click)="apriNuovo()">+ Nuovo sponsor</button>
+      <button class="btn btn-primary" type="button" (click)="apriNuovo()">
+        + Nuovo sponsor
+      </button>
     </div>
 
     <div class="barra-ricerca">
-      <input type="search" placeholder="Cerca sponsor…" [(ngModel)]="filtro" [ngModelOptions]="{ standalone: true }" />
+      <input
+        type="search"
+        placeholder="Cerca sponsor…"
+        [(ngModel)]="filtro"
+        [ngModelOptions]="{ standalone: true }"
+      />
     </div>
 
     @if (caricamento) {
@@ -34,7 +49,12 @@ import { ModalComponent } from '../../shared/modal.component';
       <div class="table-wrap">
         <table>
           <thead>
-            <tr><th>Nome</th><th>Settore</th><th>Sito web</th><th class="col-azioni">Azioni</th></tr>
+            <tr>
+              <th>Nome</th>
+              <th>Settore</th>
+              <th>Sito web</th>
+              <th class="col-azioni">Azioni</th>
+            </tr>
           </thead>
           <tbody>
             @for (s of sponsorFiltrati; track s.id) {
@@ -43,12 +63,28 @@ import { ModalComponent } from '../../shared/modal.component';
                 <td>{{ s.settore || '—' }}</td>
                 <td>
                   @if (s.sito_web) {
-                    <a [href]="s.sito_web" target="_blank" rel="noopener">{{ s.sito_web }}</a>
-                  } @else { — }
+                    <a [href]="s.sito_web" target="_blank" rel="noopener">{{
+                      s.sito_web
+                    }}</a>
+                  } @else {
+                    —
+                  }
                 </td>
                 <td class="col-azioni">
-                  <button class="btn btn-secondary btn-sm" type="button" (click)="apriModifica(s)">Modifica</button>
-                  <button class="btn btn-danger btn-sm" type="button" (click)="elimina(s)">Elimina</button>
+                  <button
+                    class="btn btn-secondary btn-sm"
+                    type="button"
+                    (click)="apriModifica(s)"
+                  >
+                    Modifica
+                  </button>
+                  <button
+                    class="btn btn-danger btn-sm"
+                    type="button"
+                    (click)="elimina(s)"
+                  >
+                    Elimina
+                  </button>
                 </td>
               </tr>
             }
@@ -58,24 +94,48 @@ import { ModalComponent } from '../../shared/modal.component';
     }
 
     @if (modaleAperto) {
-      <app-modal [titolo]="form.value.id ? 'Modifica sponsor' : 'Nuovo sponsor'" (chiudi)="chiudiModale()">
-        <form [formGroup]="form" class="form-grid colonna-singola" (ngSubmit)="salva()">
+      <app-modal
+        [titolo]="form.value.id ? 'Modifica sponsor' : 'Nuovo sponsor'"
+        (chiudi)="chiudiModale()"
+      >
+        <form
+          [formGroup]="form"
+          class="form-grid colonna-singola"
+          (ngSubmit)="salva()"
+        >
           <div class="campo">
             <label for="nome">Nome</label>
             <input id="nome" type="text" formControlName="nome" />
           </div>
           <div class="campo">
             <label for="settore">Settore</label>
-            <input id="settore" type="text" formControlName="settore" placeholder="es. Abbigliamento sportivo" />
+            <input
+              id="settore"
+              type="text"
+              formControlName="settore"
+              placeholder="es. Abbigliamento sportivo"
+            />
           </div>
           <div class="campo">
             <label for="sito">Sito web</label>
-            <input id="sito" type="text" formControlName="sito_web" placeholder="https://…" />
+            <input
+              id="sito"
+              type="text"
+              formControlName="sito_web"
+              placeholder="https://…"
+            />
           </div>
         </form>
         <div modal-footer>
-          <button class="btn btn-ghost" type="button" (click)="chiudiModale()">Annulla</button>
-          <button class="btn btn-primary" type="button" [disabled]="form.invalid || salvataggio" (click)="salva()">
+          <button class="btn btn-ghost" type="button" (click)="chiudiModale()">
+            Annulla
+          </button>
+          <button
+            class="btn btn-primary"
+            type="button"
+            [disabled]="form.invalid || salvataggio"
+            (click)="salva()"
+          >
             {{ salvataggio ? 'Salvataggio…' : 'Salva' }}
           </button>
         </div>
@@ -125,7 +185,12 @@ export class SponsorComponent implements OnInit {
   }
 
   apriModifica(s: Sponsor): void {
-    this.form.reset({ id: s.id, nome: s.nome, settore: s.settore || '', sito_web: s.sito_web || '' });
+    this.form.reset({
+      id: s.id,
+      nome: s.nome,
+      settore: s.settore || '',
+      sito_web: s.sito_web || '',
+    });
     this.modaleAperto = true;
   }
 
@@ -137,7 +202,9 @@ export class SponsorComponent implements OnInit {
     if (this.form.invalid) return;
     this.salvataggio = true;
     const { id, ...corpo } = this.form.getRawValue();
-    const richiesta = id ? this.api.aggiorna('sponsor', id, corpo) : this.api.crea('sponsor', corpo);
+    const richiesta = id
+      ? this.api.aggiorna('sponsor', id, corpo)
+      : this.api.crea('sponsor', corpo);
     richiesta.subscribe({
       next: () => {
         this.toast.successo(id ? 'Sponsor aggiornato.' : 'Sponsor creato.');
@@ -150,7 +217,12 @@ export class SponsorComponent implements OnInit {
   }
 
   elimina(s: Sponsor): void {
-    if (!confirm(`Eliminare lo sponsor "${s.nome}"? Verrà spostato nel cestino per 15 giorni.`)) return;
+    if (
+      !confirm(
+        `Eliminare lo sponsor "${s.nome}"? Verrà spostato nel cestino per 15 giorni.`,
+      )
+    )
+      return;
     this.api.elimina('sponsor', s.id).subscribe(() => {
       this.toast.successo('Sponsor spostato nel cestino.');
       this.carica();

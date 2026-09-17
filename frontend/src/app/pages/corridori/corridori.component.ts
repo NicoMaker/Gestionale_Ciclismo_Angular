@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ApiService } from '../../core/api.service';
 import { Corridore, MotivoRitiro, Nazione, Squadra } from '../../core/models';
@@ -10,19 +15,38 @@ import { ModalComponent } from '../../shared/modal.component';
 @Component({
   selector: 'app-corridori',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, ModalComponent, RouterLink],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ModalComponent,
+    RouterLink,
+  ],
   template: `
     <div class="view-head view-head-riga">
       <div>
         <h1>Corridori</h1>
-        <p>Anagrafica corridori, ritiro/riammissione e collegamento a squadra e nazione.</p>
+        <p>
+          Anagrafica corridori, ritiro/riammissione e collegamento a squadra e
+          nazione.
+        </p>
       </div>
-      <button class="btn btn-primary" type="button" (click)="apriNuovo()">+ Nuovo corridore</button>
+      <button class="btn btn-primary" type="button" (click)="apriNuovo()">
+        + Nuovo corridore
+      </button>
     </div>
 
     <div class="barra-ricerca">
-      <input type="search" placeholder="Cerca per nome, cognome o pettorale…" [(ngModel)]="filtro" [ngModelOptions]="{ standalone: true }" />
-      <select [(ngModel)]="filtroSquadra" [ngModelOptions]="{ standalone: true }">
+      <input
+        type="search"
+        placeholder="Cerca per nome, cognome o pettorale…"
+        [(ngModel)]="filtro"
+        [ngModelOptions]="{ standalone: true }"
+      />
+      <select
+        [(ngModel)]="filtroSquadra"
+        [ngModelOptions]="{ standalone: true }"
+      >
         <option [ngValue]="null">Tutte le squadre</option>
         @for (s of squadre; track s.id) {
           <option [ngValue]="s.id">{{ s.nome }}</option>
@@ -60,25 +84,53 @@ import { ModalComponent } from '../../shared/modal.component';
               <tr>
                 <td>{{ c.numero_pettorale ?? '—' }}</td>
                 <td>
-                  <a [routerLink]="['/corridori', c.id]">{{ c.cognome }} {{ c.nome }}</a>
+                  <a [routerLink]="['/corridori', c.id]"
+                    >{{ c.cognome }} {{ c.nome }}</a
+                  >
                 </td>
                 <td>{{ c.squadra_nome || '—' }}</td>
                 <td>{{ c.nazione_nome || '—' }}</td>
                 <td>
                   @if (c.ritirato) {
-                    <span class="badge badge-rosso">{{ etichettaMotivo(c.motivo_ritiro) }}</span>
+                    <span class="badge badge-rosso">{{
+                      etichettaMotivo(c.motivo_ritiro)
+                    }}</span>
                   } @else {
                     <span class="badge badge-verde">In gara</span>
                   }
                 </td>
                 <td class="col-azioni">
                   @if (c.ritirato) {
-                    <button class="btn btn-secondary btn-sm" type="button" (click)="riammetti(c)">Riammetti</button>
+                    <button
+                      class="btn btn-secondary btn-sm"
+                      type="button"
+                      (click)="riammetti(c)"
+                    >
+                      Riammetti
+                    </button>
                   } @else {
-                    <button class="btn btn-secondary btn-sm" type="button" (click)="apriRitiro(c)">Ritira</button>
+                    <button
+                      class="btn btn-secondary btn-sm"
+                      type="button"
+                      (click)="apriRitiro(c)"
+                    >
+                      Ritira
+                    </button>
                   }
-                  <button class="btn btn-secondary btn-sm" type="button" (click)="apriModifica(c)">Modifica</button>
-                  <button class="btn btn-danger btn-sm" type="button" (click)="elimina(c)">Elimina</button>
+                  <button
+                    class="btn btn-secondary btn-sm"
+                    type="button"
+                    (click)="apriModifica(c)"
+                  >
+                    Modifica
+                  </button>
+                  <button
+                    class="btn btn-danger btn-sm"
+                    type="button"
+                    (click)="elimina(c)"
+                  >
+                    Elimina
+                  </button>
                 </td>
               </tr>
             }
@@ -88,7 +140,10 @@ import { ModalComponent } from '../../shared/modal.component';
     }
 
     @if (modaleAperto) {
-      <app-modal [titolo]="form.value.id ? 'Modifica corridore' : 'Nuovo corridore'" (chiudi)="chiudiModale()">
+      <app-modal
+        [titolo]="form.value.id ? 'Modifica corridore' : 'Nuovo corridore'"
+        (chiudi)="chiudiModale()"
+      >
         <form [formGroup]="form" class="form-grid" (ngSubmit)="salva()">
           <div class="campo">
             <label for="nome">Nome</label>
@@ -100,7 +155,11 @@ import { ModalComponent } from '../../shared/modal.component';
           </div>
           <div class="campo">
             <label for="pettorale">Numero pettorale</label>
-            <input id="pettorale" type="number" formControlName="numero_pettorale" />
+            <input
+              id="pettorale"
+              type="number"
+              formControlName="numero_pettorale"
+            />
           </div>
           <div class="campo">
             <label for="nascita">Data di nascita</label>
@@ -120,14 +179,23 @@ import { ModalComponent } from '../../shared/modal.component';
             <select id="nazione" formControlName="nazione_id">
               <option [ngValue]="null">—</option>
               @for (n of nazioni; track n.id) {
-                <option [ngValue]="n.id">{{ n.nome }} ({{ n.codice_iso2 }})</option>
+                <option [ngValue]="n.id">
+                  {{ n.nome }} ({{ n.codice_iso2 }})
+                </option>
               }
             </select>
           </div>
         </form>
         <div modal-footer>
-          <button class="btn btn-ghost" type="button" (click)="chiudiModale()">Annulla</button>
-          <button class="btn btn-primary" type="button" [disabled]="form.invalid || salvataggio" (click)="salva()">
+          <button class="btn btn-ghost" type="button" (click)="chiudiModale()">
+            Annulla
+          </button>
+          <button
+            class="btn btn-primary"
+            type="button"
+            [disabled]="form.invalid || salvataggio"
+            (click)="salva()"
+          >
             {{ salvataggio ? 'Salvataggio…' : 'Salva' }}
           </button>
         </div>
@@ -135,7 +203,15 @@ import { ModalComponent } from '../../shared/modal.component';
     }
 
     @if (modaleRitiroAperto && corridoreDaRitirare) {
-      <app-modal [titolo]="'Ritira ' + corridoreDaRitirare.cognome + ' ' + corridoreDaRitirare.nome" (chiudi)="chiudiRitiro()">
+      <app-modal
+        [titolo]="
+          'Ritira ' +
+          corridoreDaRitirare.cognome +
+          ' ' +
+          corridoreDaRitirare.nome
+        "
+        (chiudi)="chiudiRitiro()"
+      >
         <form [formGroup]="formRitiro" class="form-grid colonna-singola">
           <div class="campo">
             <label for="motivo">Motivo del ritiro</label>
@@ -149,9 +225,14 @@ import { ModalComponent } from '../../shared/modal.component';
           </div>
           <div class="campo">
             <label for="tappaRitiro">Numero tappa del ritiro (opzionale)</label>
-            <input id="tappaRitiro" type="number" formControlName="ritirato_tappa_numero" />
+            <input
+              id="tappaRitiro"
+              type="number"
+              formControlName="ritirato_tappa_numero"
+            />
             <span class="suggerimento">
-              Se indicato, il corridore resta ammesso nei risultati fino a quella tappa inclusa.
+              Se indicato, il corridore resta ammesso nei risultati fino a
+              quella tappa inclusa.
             </span>
           </div>
           <div class="campo">
@@ -160,8 +241,16 @@ import { ModalComponent } from '../../shared/modal.component';
           </div>
         </form>
         <div modal-footer>
-          <button class="btn btn-ghost" type="button" (click)="chiudiRitiro()">Annulla</button>
-          <button class="btn btn-danger" type="button" (click)="confermaRitiro()">Conferma ritiro</button>
+          <button class="btn btn-ghost" type="button" (click)="chiudiRitiro()">
+            Annulla
+          </button>
+          <button
+            class="btn btn-danger"
+            type="button"
+            (click)="confermaRitiro()"
+          >
+            Conferma ritiro
+          </button>
         </div>
       </app-modal>
     }
@@ -204,7 +293,8 @@ export class CorridoriComponent implements OnInit {
   get corridoriFiltrati(): Corridore[] {
     const q = this.filtro.trim().toLowerCase();
     return this.corridori.filter((c) => {
-      if (this.filtroSquadra && c.squadra_id !== this.filtroSquadra) return false;
+      if (this.filtroSquadra && c.squadra_id !== this.filtroSquadra)
+        return false;
       if (this.filtroStato === 'in_gara' && c.ritirato) return false;
       if (this.filtroStato === 'ritirati' && !c.ritirato) return false;
       if (!q) return true;
@@ -239,7 +329,7 @@ export class CorridoriComponent implements OnInit {
       doping: 'Squalifica doping',
       altro: 'Ritirato',
     };
-    return motivo ? mappa[motivo] ?? 'Ritirato' : 'Ritirato';
+    return motivo ? (mappa[motivo] ?? 'Ritirato') : 'Ritirato';
   }
 
   apriNuovo(): void {
@@ -276,7 +366,9 @@ export class CorridoriComponent implements OnInit {
     if (this.form.invalid) return;
     this.salvataggio = true;
     const { id, ...corpo } = this.form.getRawValue();
-    const richiesta = id ? this.api.aggiorna('corridori', id, corpo) : this.api.crea('corridori', corpo);
+    const richiesta = id
+      ? this.api.aggiorna('corridori', id, corpo)
+      : this.api.crea('corridori', corpo);
     richiesta.subscribe({
       next: () => {
         this.toast.successo(id ? 'Corridore aggiornato.' : 'Corridore creato.');
@@ -289,7 +381,12 @@ export class CorridoriComponent implements OnInit {
   }
 
   elimina(c: Corridore): void {
-    if (!confirm(`Eliminare ${c.cognome} ${c.nome}? Verrà spostato nel cestino per 15 giorni.`)) return;
+    if (
+      !confirm(
+        `Eliminare ${c.cognome} ${c.nome}? Verrà spostato nel cestino per 15 giorni.`,
+      )
+    )
+      return;
     this.api.elimina('corridori', c.id).subscribe(() => {
       this.toast.successo('Corridore spostato nel cestino.');
       this.carica();
@@ -298,7 +395,11 @@ export class CorridoriComponent implements OnInit {
 
   apriRitiro(c: Corridore): void {
     this.corridoreDaRitirare = c;
-    this.formRitiro.reset({ motivo_ritiro: 'infortunio', ritirato_tappa_numero: null, note_ritiro: '' });
+    this.formRitiro.reset({
+      motivo_ritiro: 'infortunio',
+      ritirato_tappa_numero: null,
+      note_ritiro: '',
+    });
     this.modaleRitiroAperto = true;
   }
 
@@ -309,11 +410,16 @@ export class CorridoriComponent implements OnInit {
 
   confermaRitiro(): void {
     if (!this.corridoreDaRitirare) return;
-    this.api.azione(`corridori/${this.corridoreDaRitirare.id}/ritira`, this.formRitiro.getRawValue()).subscribe(() => {
-      this.toast.successo('Corridore ritirato.');
-      this.chiudiRitiro();
-      this.carica();
-    });
+    this.api
+      .azione(
+        `corridori/${this.corridoreDaRitirare.id}/ritira`,
+        this.formRitiro.getRawValue(),
+      )
+      .subscribe(() => {
+        this.toast.successo('Corridore ritirato.');
+        this.chiudiRitiro();
+        this.carica();
+      });
   }
 
   riammetti(c: Corridore): void {

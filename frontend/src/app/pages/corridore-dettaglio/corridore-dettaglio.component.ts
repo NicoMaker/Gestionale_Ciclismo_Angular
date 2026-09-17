@@ -21,14 +21,16 @@ import { Corridore, DettaglioCorridore } from '../../core/models';
       <div class="view-head">
         <h1>{{ corridore.cognome }} {{ corridore.nome }}</h1>
         <p>
-          #{{ corridore.numero_pettorale ?? '—' }} · {{ corridore.squadra_nome || 'Nessuna squadra' }} ·
+          #{{ corridore.numero_pettorale ?? '—' }} ·
+          {{ corridore.squadra_nome || 'Nessuna squadra' }} ·
           {{ corridore.nazione_nome || 'Nazione non impostata' }}
         </p>
       </div>
 
       @if (corridore.ritirato) {
         <div class="card avviso-ritiro mb-16">
-          <strong>Corridore ritirato</strong> — motivo: {{ corridore.motivo_ritiro }}
+          <strong>Corridore ritirato</strong> — motivo:
+          {{ corridore.motivo_ritiro }}
           @if (corridore.note_ritiro) {
             <p class="testo-soft mt-16">{{ corridore.note_ritiro }}</p>
           }
@@ -38,26 +40,36 @@ import { Corridore, DettaglioCorridore } from '../../core/models';
       @if (dettaglio) {
         <div class="griglia-statistiche">
           <div class="statistica">
-            <div class="numero">{{ posizioneTesto(dettaglio.classifiche.generale) }}</div>
+            <div class="numero">
+              {{ posizioneTesto(dettaglio.classifiche.generale) }}
+            </div>
             <div class="etichetta">Maglia rosa (generale)</div>
           </div>
           <div class="statistica">
-            <div class="numero">{{ posizioneTesto(dettaglio.classifiche.punti) }}</div>
+            <div class="numero">
+              {{ posizioneTesto(dettaglio.classifiche.punti) }}
+            </div>
             <div class="etichetta">Maglia ciclamino (punti)</div>
           </div>
           <div class="statistica">
-            <div class="numero">{{ posizioneTesto(dettaglio.classifiche.montagna) }}</div>
+            <div class="numero">
+              {{ posizioneTesto(dettaglio.classifiche.montagna) }}
+            </div>
             <div class="etichetta">Maglia verde (GPM)</div>
           </div>
           <div class="statistica">
-            <div class="numero">{{ posizioneTesto(dettaglio.classifiche.giovani) }}</div>
+            <div class="numero">
+              {{ posizioneTesto(dettaglio.classifiche.giovani) }}
+            </div>
             <div class="etichetta">Maglia bianca (giovani)</div>
           </div>
         </div>
 
         <h3 class="mb-16">Risultati tappa per tappa</h3>
         @if (dettaglio.risultati.length === 0) {
-          <p class="testo-soft">Nessun risultato registrato per questo corridore.</p>
+          <p class="testo-soft">
+            Nessun risultato registrato per questo corridore.
+          </p>
         } @else {
           <div class="table-wrap">
             <table>
@@ -116,11 +128,15 @@ export class CorridoreDettaglioComponent implements OnChanges {
   ngOnChanges(): void {
     if (!this.id) return;
     this.caricamento = true;
-    this.api.ottieni<Corridore>('corridori', this.id).subscribe((c) => (this.corridore = c));
-    this.api.ottieniPercorso<DettaglioCorridore>(`risultati/corridore/${this.id}`).subscribe((d) => {
-      this.dettaglio = d;
-      this.caricamento = false;
-    });
+    this.api
+      .ottieni<Corridore>('corridori', this.id)
+      .subscribe((c) => (this.corridore = c));
+    this.api
+      .ottieniPercorso<DettaglioCorridore>(`risultati/corridore/${this.id}`)
+      .subscribe((d) => {
+        this.dettaglio = d;
+        this.caricamento = false;
+      });
   }
 
   posizioneTesto(p: { posizione: number; totale: number } | null): string {

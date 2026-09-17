@@ -30,11 +30,18 @@ export class ApiService {
     return this.http.post<T>(`${this.base}/${percorso}`, corpo);
   }
 
-  aggiorna<T>(percorso: string, id: number | string, corpo: unknown): Observable<T> {
+  aggiorna<T>(
+    percorso: string,
+    id: number | string,
+    corpo: unknown,
+  ): Observable<T> {
     return this.http.put<T>(`${this.base}/${percorso}/${id}`, corpo);
   }
 
-  elimina<T = { ok: boolean }>(percorso: string, id: number | string): Observable<T> {
+  elimina<T = { ok: boolean }>(
+    percorso: string,
+    id: number | string,
+  ): Observable<T> {
     return this.http.delete<T>(`${this.base}/${percorso}/${id}`);
   }
 

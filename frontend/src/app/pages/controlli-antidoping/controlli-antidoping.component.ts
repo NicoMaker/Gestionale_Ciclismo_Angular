@@ -17,10 +17,13 @@ import { ModalComponent } from '../../shared/modal.component';
       <div>
         <h1>Controlli antidoping</h1>
         <p>
-          Un esito "positivo" squalifica automaticamente il corridore (motivo doping) da quella tappa in poi.
+          Un esito "positivo" squalifica automaticamente il corridore (motivo
+          doping) da quella tappa in poi.
         </p>
       </div>
-      <button class="btn btn-primary" type="button" (click)="apriNuovo()">+ Nuovo controllo</button>
+      <button class="btn btn-primary" type="button" (click)="apriNuovo()">
+        + Nuovo controllo
+      </button>
     </div>
 
     @if (caricamento) {
@@ -33,18 +36,42 @@ import { ModalComponent } from '../../shared/modal.component';
       <div class="table-wrap">
         <table>
           <thead>
-            <tr><th>Corridore</th><th>Tappa</th><th>Data</th><th>Esito</th><th class="col-azioni">Azioni</th></tr>
+            <tr>
+              <th>Corridore</th>
+              <th>Tappa</th>
+              <th>Data</th>
+              <th>Esito</th>
+              <th class="col-azioni">Azioni</th>
+            </tr>
           </thead>
           <tbody>
             @for (c of controlli; track c.id) {
               <tr>
                 <td>{{ lookup.etichetta('corridori', c.corridore_id) }}</td>
-                <td>{{ c.tappa_id ? lookup.etichetta('tappe', c.tappa_id) : '—' }}</td>
+                <td>
+                  {{ c.tappa_id ? lookup.etichetta('tappe', c.tappa_id) : '—' }}
+                </td>
                 <td>{{ c.data || '—' }}</td>
-                <td><span class="badge" [class]="classeEsito(c.esito)">{{ etichettaEsito(c.esito) }}</span></td>
+                <td>
+                  <span class="badge" [class]="classeEsito(c.esito)">{{
+                    etichettaEsito(c.esito)
+                  }}</span>
+                </td>
                 <td class="col-azioni">
-                  <button class="btn btn-secondary btn-sm" type="button" (click)="apriModifica(c)">Modifica</button>
-                  <button class="btn btn-danger btn-sm" type="button" (click)="elimina(c)">Elimina</button>
+                  <button
+                    class="btn btn-secondary btn-sm"
+                    type="button"
+                    (click)="apriModifica(c)"
+                  >
+                    Modifica
+                  </button>
+                  <button
+                    class="btn btn-danger btn-sm"
+                    type="button"
+                    (click)="elimina(c)"
+                  >
+                    Elimina
+                  </button>
                 </td>
               </tr>
             }
@@ -54,8 +81,15 @@ import { ModalComponent } from '../../shared/modal.component';
     }
 
     @if (modaleAperto) {
-      <app-modal [titolo]="form.value.id ? 'Modifica controllo' : 'Nuovo controllo'" (chiudi)="chiudiModale()">
-        <form [formGroup]="form" class="form-grid colonna-singola" (ngSubmit)="salva()">
+      <app-modal
+        [titolo]="form.value.id ? 'Modifica controllo' : 'Nuovo controllo'"
+        (chiudi)="chiudiModale()"
+      >
+        <form
+          [formGroup]="form"
+          class="form-grid colonna-singola"
+          (ngSubmit)="salva()"
+        >
           <div class="campo">
             <label for="corridore">Corridore</label>
             <select id="corridore" formControlName="corridore_id">
@@ -87,8 +121,15 @@ import { ModalComponent } from '../../shared/modal.component';
           </div>
         </form>
         <div modal-footer>
-          <button class="btn btn-ghost" type="button" (click)="chiudiModale()">Annulla</button>
-          <button class="btn btn-primary" type="button" [disabled]="form.invalid || salvataggio" (click)="salva()">
+          <button class="btn btn-ghost" type="button" (click)="chiudiModale()">
+            Annulla
+          </button>
+          <button
+            class="btn btn-primary"
+            type="button"
+            [disabled]="form.invalid || salvataggio"
+            (click)="salva()"
+          >
             {{ salvataggio ? 'Salvataggio…' : 'Salva' }}
           </button>
         </div>
@@ -130,27 +171,49 @@ export class ControlliAntidopingComponent implements OnInit {
 
   carica(): void {
     this.caricamento = true;
-    this.api.list<ControlloAntidoping>('controlli-antidoping').subscribe((righe) => {
-      this.controlli = righe;
-      this.caricamento = false;
-    });
+    this.api
+      .list<ControlloAntidoping>('controlli-antidoping')
+      .subscribe((righe) => {
+        this.controlli = righe;
+        this.caricamento = false;
+      });
   }
 
   etichettaEsito(e: ControlloAntidoping['esito']): string {
-    return { negativo: 'Negativo', positivo: 'Positivo', in_attesa: 'In attesa' }[e];
+    return {
+      negativo: 'Negativo',
+      positivo: 'Positivo',
+      in_attesa: 'In attesa',
+    }[e];
   }
 
   classeEsito(e: ControlloAntidoping['esito']): string {
-    return { negativo: 'badge-verde', positivo: 'badge-rosso', in_attesa: 'badge-grigio' }[e];
+    return {
+      negativo: 'badge-verde',
+      positivo: 'badge-rosso',
+      in_attesa: 'badge-grigio',
+    }[e];
   }
 
   apriNuovo(): void {
-    this.form.reset({ id: null, corridore_id: this.opzioniCorridori[0]?.valore ?? null, tappa_id: null, data: null, esito: 'in_attesa' });
+    this.form.reset({
+      id: null,
+      corridore_id: this.opzioniCorridori[0]?.valore ?? null,
+      tappa_id: null,
+      data: null,
+      esito: 'in_attesa',
+    });
     this.modaleAperto = true;
   }
 
   apriModifica(c: ControlloAntidoping): void {
-    this.form.reset({ id: c.id, corridore_id: c.corridore_id, tappa_id: c.tappa_id, data: c.data, esito: c.esito });
+    this.form.reset({
+      id: c.id,
+      corridore_id: c.corridore_id,
+      tappa_id: c.tappa_id,
+      data: c.data,
+      esito: c.esito,
+    });
     this.modaleAperto = true;
   }
 

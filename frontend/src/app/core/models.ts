@@ -24,11 +24,7 @@ export interface Squadra {
 }
 
 export type MotivoRitiro =
-  | 'infortunio'
-  | 'abbandono'
-  | 'squalifica'
-  | 'doping'
-  | 'altro';
+  'infortunio' | 'abbandono' | 'squalifica' | 'doping' | 'altro';
 
 export interface Corridore {
   id: number;

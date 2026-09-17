@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ApiService } from '../../core/api.service';
 import { LookupService } from '../../core/lookup.service';
 import { Nazione, Squadra } from '../../core/models';
@@ -17,11 +22,18 @@ import { ModalComponent } from '../../shared/modal.component';
         <h1>Squadre</h1>
         <p>Anagrafica squadre, nazionalità e colore sociale.</p>
       </div>
-      <button class="btn btn-primary" type="button" (click)="apriNuovo()">+ Nuova squadra</button>
+      <button class="btn btn-primary" type="button" (click)="apriNuovo()">
+        + Nuova squadra
+      </button>
     </div>
 
     <div class="barra-ricerca">
-      <input type="search" placeholder="Cerca squadra…" [(ngModel)]="filtro" [ngModelOptions]="{ standalone: true }" />
+      <input
+        type="search"
+        placeholder="Cerca squadra…"
+        [(ngModel)]="filtro"
+        [ngModelOptions]="{ standalone: true }"
+      />
     </div>
 
     @if (caricamento) {
@@ -39,13 +51,28 @@ import { ModalComponent } from '../../shared/modal.component';
               <span class="puntino" [style.background]="s.colore"></span>
               <h3>{{ s.nome }}</h3>
             </div>
-            <p class="testo-soft">{{ s.nazione_nome || 'Nazione non impostata' }}</p>
             <p class="testo-soft">
-              {{ s.numero_corridori_in_gara ?? 0 }} in gara / {{ s.numero_corridori ?? 0 }} in rosa
+              {{ s.nazione_nome || 'Nazione non impostata' }}
+            </p>
+            <p class="testo-soft">
+              {{ s.numero_corridori_in_gara ?? 0 }} in gara /
+              {{ s.numero_corridori ?? 0 }} in rosa
             </p>
             <div class="scheda-squadra-azioni">
-              <button class="btn btn-secondary btn-sm" type="button" (click)="apriModifica(s)">Modifica</button>
-              <button class="btn btn-danger btn-sm" type="button" (click)="elimina(s)">Elimina</button>
+              <button
+                class="btn btn-secondary btn-sm"
+                type="button"
+                (click)="apriModifica(s)"
+              >
+                Modifica
+              </button>
+              <button
+                class="btn btn-danger btn-sm"
+                type="button"
+                (click)="elimina(s)"
+              >
+                Elimina
+              </button>
             </div>
           </div>
         }
@@ -53,18 +80,28 @@ import { ModalComponent } from '../../shared/modal.component';
     }
 
     @if (modaleAperto) {
-      <app-modal [titolo]="form.value.id ? 'Modifica squadra' : 'Nuova squadra'" (chiudi)="chiudiModale()">
+      <app-modal
+        [titolo]="form.value.id ? 'Modifica squadra' : 'Nuova squadra'"
+        (chiudi)="chiudiModale()"
+      >
         <form [formGroup]="form" class="form-grid" (ngSubmit)="salva()">
           <div class="campo largo">
             <label for="nome">Nome squadra</label>
-            <input id="nome" type="text" formControlName="nome" placeholder="es. Team Asfalto Rosa" />
+            <input
+              id="nome"
+              type="text"
+              formControlName="nome"
+              placeholder="es. Team Asfalto Rosa"
+            />
           </div>
           <div class="campo">
             <label for="nazione">Nazione</label>
             <select id="nazione" formControlName="nazione_id">
               <option [ngValue]="null">—</option>
               @for (n of nazioni; track n.id) {
-                <option [ngValue]="n.id">{{ n.nome }} ({{ n.codice_iso2 }})</option>
+                <option [ngValue]="n.id">
+                  {{ n.nome }} ({{ n.codice_iso2 }})
+                </option>
               }
             </select>
           </div>
@@ -74,8 +111,15 @@ import { ModalComponent } from '../../shared/modal.component';
           </div>
         </form>
         <div modal-footer>
-          <button class="btn btn-ghost" type="button" (click)="chiudiModale()">Annulla</button>
-          <button class="btn btn-primary" type="button" [disabled]="form.invalid || salvataggio" (click)="salva()">
+          <button class="btn btn-ghost" type="button" (click)="chiudiModale()">
+            Annulla
+          </button>
+          <button
+            class="btn btn-primary"
+            type="button"
+            [disabled]="form.invalid || salvataggio"
+            (click)="salva()"
+          >
             {{ salvataggio ? 'Salvataggio…' : 'Salva' }}
           </button>
         </div>
@@ -146,12 +190,22 @@ export class SquadreComponent implements OnInit {
   }
 
   apriNuovo(): void {
-    this.form.reset({ id: null, nome: '', nazione_id: null, colore: '#e6197f' });
+    this.form.reset({
+      id: null,
+      nome: '',
+      nazione_id: null,
+      colore: '#e6197f',
+    });
     this.modaleAperto = true;
   }
 
   apriModifica(s: Squadra): void {
-    this.form.reset({ id: s.id, nome: s.nome, nazione_id: s.nazione_id, colore: s.colore || '#e6197f' });
+    this.form.reset({
+      id: s.id,
+      nome: s.nome,
+      nazione_id: s.nazione_id,
+      colore: s.colore || '#e6197f',
+    });
     this.modaleAperto = true;
   }
 
@@ -163,7 +217,9 @@ export class SquadreComponent implements OnInit {
     if (this.form.invalid) return;
     this.salvataggio = true;
     const { id, ...corpo } = this.form.getRawValue();
-    const richiesta = id ? this.api.aggiorna('squadre', id, corpo) : this.api.crea('squadre', corpo);
+    const richiesta = id
+      ? this.api.aggiorna('squadre', id, corpo)
+      : this.api.crea('squadre', corpo);
     richiesta.subscribe({
       next: () => {
         this.toast.successo(id ? 'Squadra aggiornata.' : 'Squadra creata.');
@@ -176,7 +232,12 @@ export class SquadreComponent implements OnInit {
   }
 
   elimina(s: Squadra): void {
-    if (!confirm(`Eliminare la squadra "${s.nome}"? Verrà spostata nel cestino per 15 giorni.`)) return;
+    if (
+      !confirm(
+        `Eliminare la squadra "${s.nome}"? Verrà spostata nel cestino per 15 giorni.`,
+      )
+    )
+      return;
     this.api.elimina('squadre', s.id).subscribe(() => {
       this.toast.successo('Squadra spostata nel cestino.');
       this.carica();

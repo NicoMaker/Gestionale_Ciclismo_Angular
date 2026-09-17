@@ -17,12 +17,20 @@ type SchedaClassifica = 'tempo' | 'punti' | 'montagna' | 'giovani' | 'squadre';
   template: `
     <div class="view-head">
       <h1>Classifiche</h1>
-      <p>Le cinque classifiche ufficiali della corsa, calcolate in tempo reale dal backend.</p>
+      <p>
+        Le cinque classifiche ufficiali della corsa, calcolate in tempo reale
+        dal backend.
+      </p>
     </div>
 
     <div class="tabs">
       @for (s of schede; track s.chiave) {
-        <button class="tab" [class.attivo]="schedaAttiva === s.chiave" type="button" (click)="cambiaScheda(s.chiave)">
+        <button
+          class="tab"
+          [class.attivo]="schedaAttiva === s.chiave"
+          type="button"
+          (click)="cambiaScheda(s.chiave)"
+        >
           {{ s.etichetta }}
         </button>
       }
@@ -39,13 +47,25 @@ type SchedaClassifica = 'tempo' | 'punti' | 'montagna' | 'giovani' | 'squadre';
             <div class="table-wrap">
               <table>
                 <thead>
-                  <tr><th>#</th><th>Corridore</th><th>Squadra</th><th>Tappe</th><th>Tempo totale</th><th>Distacco</th></tr>
+                  <tr>
+                    <th>#</th>
+                    <th>Corridore</th>
+                    <th>Squadra</th>
+                    <th>Tappe</th>
+                    <th>Tempo totale</th>
+                    <th>Distacco</th>
+                  </tr>
                 </thead>
                 <tbody>
                   @for (v of tempo; track v.id; let i = $index) {
                     <tr>
                       <td>{{ i + 1 }}</td>
-                      <td>{{ v.cognome }} {{ v.nome }} <span class="testo-soft">#{{ v.numero_pettorale }}</span></td>
+                      <td>
+                        {{ v.cognome }} {{ v.nome }}
+                        <span class="testo-soft"
+                          >#{{ v.numero_pettorale }}</span
+                        >
+                      </td>
                       <td>{{ v.squadra_nome }}</td>
                       <td>{{ v.tappe_disputate }}</td>
                       <td>{{ v.tempo_totale }}</td>
@@ -64,13 +84,24 @@ type SchedaClassifica = 'tempo' | 'punti' | 'montagna' | 'giovani' | 'squadre';
             <div class="table-wrap">
               <table>
                 <thead>
-                  <tr><th>#</th><th>Corridore</th><th>Squadra</th><th>Tappe</th><th>Punti</th></tr>
+                  <tr>
+                    <th>#</th>
+                    <th>Corridore</th>
+                    <th>Squadra</th>
+                    <th>Tappe</th>
+                    <th>Punti</th>
+                  </tr>
                 </thead>
                 <tbody>
                   @for (v of punti; track v.id; let i = $index) {
                     <tr>
                       <td>{{ i + 1 }}</td>
-                      <td>{{ v.cognome }} {{ v.nome }} <span class="testo-soft">#{{ v.numero_pettorale }}</span></td>
+                      <td>
+                        {{ v.cognome }} {{ v.nome }}
+                        <span class="testo-soft"
+                          >#{{ v.numero_pettorale }}</span
+                        >
+                      </td>
                       <td>{{ v.squadra_nome }}</td>
                       <td>{{ v.tappe_disputate }}</td>
                       <td>{{ v.punti_totali }}</td>
@@ -88,13 +119,24 @@ type SchedaClassifica = 'tempo' | 'punti' | 'montagna' | 'giovani' | 'squadre';
             <div class="table-wrap">
               <table>
                 <thead>
-                  <tr><th>#</th><th>Corridore</th><th>Squadra</th><th>GPM disputati</th><th>Punti</th></tr>
+                  <tr>
+                    <th>#</th>
+                    <th>Corridore</th>
+                    <th>Squadra</th>
+                    <th>GPM disputati</th>
+                    <th>Punti</th>
+                  </tr>
                 </thead>
                 <tbody>
                   @for (v of montagna; track v.id; let i = $index) {
                     <tr>
                       <td>{{ i + 1 }}</td>
-                      <td>{{ v.cognome }} {{ v.nome }} <span class="testo-soft">#{{ v.numero_pettorale }}</span></td>
+                      <td>
+                        {{ v.cognome }} {{ v.nome }}
+                        <span class="testo-soft"
+                          >#{{ v.numero_pettorale }}</span
+                        >
+                      </td>
                       <td>{{ v.squadra_nome }}</td>
                       <td>{{ v.gpm_disputati }}</td>
                       <td>{{ v.punti_totali }}</td>
@@ -107,18 +149,32 @@ type SchedaClassifica = 'tempo' | 'punti' | 'montagna' | 'giovani' | 'squadre';
         }
         @case ('giovani') {
           @if (giovani.length === 0) {
-            <p class="testo-soft">Nessun corridore under-25 con risultati ancora.</p>
+            <p class="testo-soft">
+              Nessun corridore under-25 con risultati ancora.
+            </p>
           } @else {
             <div class="table-wrap">
               <table>
                 <thead>
-                  <tr><th>#</th><th>Corridore</th><th>Età</th><th>Squadra</th><th>Tempo totale</th><th>Distacco</th></tr>
+                  <tr>
+                    <th>#</th>
+                    <th>Corridore</th>
+                    <th>Età</th>
+                    <th>Squadra</th>
+                    <th>Tempo totale</th>
+                    <th>Distacco</th>
+                  </tr>
                 </thead>
                 <tbody>
                   @for (v of giovani; track v.id; let i = $index) {
                     <tr>
                       <td>{{ i + 1 }}</td>
-                      <td>{{ v.cognome }} {{ v.nome }} <span class="testo-soft">#{{ v.numero_pettorale }}</span></td>
+                      <td>
+                        {{ v.cognome }} {{ v.nome }}
+                        <span class="testo-soft"
+                          >#{{ v.numero_pettorale }}</span
+                        >
+                      </td>
                       <td>{{ v.eta ?? '—' }}</td>
                       <td>{{ v.squadra_nome }}</td>
                       <td>{{ v.tempo_totale }}</td>
@@ -137,13 +193,25 @@ type SchedaClassifica = 'tempo' | 'punti' | 'montagna' | 'giovani' | 'squadre';
             <div class="table-wrap">
               <table>
                 <thead>
-                  <tr><th>#</th><th>Squadra</th><th>Corridori contati</th><th>Tempo totale</th><th>Distacco</th></tr>
+                  <tr>
+                    <th>#</th>
+                    <th>Squadra</th>
+                    <th>Corridori contati</th>
+                    <th>Tempo totale</th>
+                    <th>Distacco</th>
+                  </tr>
                 </thead>
                 <tbody>
                   @for (v of squadre; track v.squadra_id; let i = $index) {
                     <tr>
                       <td>{{ i + 1 }}</td>
-                      <td><span class="puntino" [style.background]="v.squadra_colore"></span> {{ v.squadra_nome }}</td>
+                      <td>
+                        <span
+                          class="puntino"
+                          [style.background]="v.squadra_colore"
+                        ></span>
+                        {{ v.squadra_nome }}
+                      </td>
                       <td>{{ v.corridori_contati }}</td>
                       <td>{{ v.tempo_totale }}</td>
                       <td>{{ v.distacco }}</td>

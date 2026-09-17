@@ -1,10 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnChanges, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { forkJoin, of } from 'rxjs';
 import { ApiService } from '../../core/api.service';
-import { CampoConfig, EntitaConfig, trovaConfigurazione } from '../../core/entity-configs';
-import { ChiaveLookup, LookupService, OpzioneLookup } from '../../core/lookup.service';
+import {
+  CampoConfig,
+  EntitaConfig,
+  trovaConfigurazione,
+} from '../../core/entity-configs';
+import {
+  ChiaveLookup,
+  LookupService,
+  OpzioneLookup,
+} from '../../core/lookup.service';
 import { ToastService } from '../../core/toast.service';
 import { ModalComponent } from '../../shared/modal.component';
 
@@ -27,9 +40,14 @@ import { ModalComponent } from '../../shared/modal.component';
       <div class="view-head view-head-riga">
         <div>
           <h1>{{ config.titolo }}</h1>
-          <p>Dati di supporto della corsa — gestione libera tramite API generiche.</p>
+          <p>
+            Dati di supporto della corsa — gestione libera tramite API
+            generiche.
+          </p>
         </div>
-        <button class="btn btn-primary" type="button" (click)="apriNuovo()">+ Nuovo {{ config.singolare }}</button>
+        <button class="btn btn-primary" type="button" (click)="apriNuovo()">
+          + Nuovo {{ config.singolare }}
+        </button>
       </div>
 
       @if (caricamento) {
@@ -37,7 +55,9 @@ import { ModalComponent } from '../../shared/modal.component';
       } @else if (righe.length === 0) {
         <div class="stato-vuoto">
           <div class="titolo">Nessun elemento presente</div>
-          <p>Aggiungi il primo {{ config.singolare }} con il pulsante in alto.</p>
+          <p>
+            Aggiungi il primo {{ config.singolare }} con il pulsante in alto.
+          </p>
         </div>
       } @else {
         <div class="table-wrap">
@@ -57,8 +77,20 @@ import { ModalComponent } from '../../shared/modal.component';
                     <td>{{ valoreVisualizzato(riga, campo) }}</td>
                   }
                   <td class="col-azioni">
-                    <button class="btn btn-secondary btn-sm" type="button" (click)="apriModifica(riga)">Modifica</button>
-                    <button class="btn btn-danger btn-sm" type="button" (click)="elimina(riga)">Elimina</button>
+                    <button
+                      class="btn btn-secondary btn-sm"
+                      type="button"
+                      (click)="apriModifica(riga)"
+                    >
+                      Modifica
+                    </button>
+                    <button
+                      class="btn btn-danger btn-sm"
+                      type="button"
+                      (click)="elimina(riga)"
+                    >
+                      Elimina
+                    </button>
                   </td>
                 </tr>
               }
@@ -69,7 +101,9 @@ import { ModalComponent } from '../../shared/modal.component';
 
       @if (modaleAperto && form) {
         <app-modal
-          [titolo]="(form.get('id')?.value ? 'Modifica ' : 'Nuovo ') + config.singolare"
+          [titolo]="
+            (form.get('id')?.value ? 'Modifica ' : 'Nuovo ') + config.singolare
+          "
           (chiudi)="chiudiModale()"
         >
           <form [formGroup]="form" class="form-grid">
@@ -79,23 +113,39 @@ import { ModalComponent } from '../../shared/modal.component';
 
                 @switch (campo.tipo) {
                   @case ('select') {
-                    <select [id]="campo.chiave" [formControlName]="campo.chiave">
+                    <select
+                      [id]="campo.chiave"
+                      [formControlName]="campo.chiave"
+                    >
                       @if (!campo.obbligatorio) {
                         <option [ngValue]="null">—</option>
                       }
                       @if (campo.lookup) {
-                        @for (o of opzioniLookup[campo.lookup] || []; track o.valore) {
-                          <option [ngValue]="o.valore">{{ o.etichetta }}</option>
+                        @for (
+                          o of opzioniLookup[campo.lookup] || [];
+                          track o.valore
+                        ) {
+                          <option [ngValue]="o.valore">
+                            {{ o.etichetta }}
+                          </option>
                         }
                       } @else {
-                        @for (o of campo.opzioniStatiche || []; track o.valore) {
-                          <option [ngValue]="o.valore">{{ o.etichetta }}</option>
+                        @for (
+                          o of campo.opzioniStatiche || [];
+                          track o.valore
+                        ) {
+                          <option [ngValue]="o.valore">
+                            {{ o.etichetta }}
+                          </option>
                         }
                       }
                     </select>
                   }
                   @case ('textarea') {
-                    <textarea [id]="campo.chiave" [formControlName]="campo.chiave"></textarea>
+                    <textarea
+                      [id]="campo.chiave"
+                      [formControlName]="campo.chiave"
+                    ></textarea>
                   }
                   @case ('numero') {
                     <input
@@ -106,18 +156,37 @@ import { ModalComponent } from '../../shared/modal.component';
                     />
                   }
                   @case ('data') {
-                    <input [id]="campo.chiave" type="date" [formControlName]="campo.chiave" />
+                    <input
+                      [id]="campo.chiave"
+                      type="date"
+                      [formControlName]="campo.chiave"
+                    />
                   }
                   @default {
-                    <input [id]="campo.chiave" type="text" [formControlName]="campo.chiave" />
+                    <input
+                      [id]="campo.chiave"
+                      type="text"
+                      [formControlName]="campo.chiave"
+                    />
                   }
                 }
               </div>
             }
           </form>
           <div modal-footer>
-            <button class="btn btn-ghost" type="button" (click)="chiudiModale()">Annulla</button>
-            <button class="btn btn-primary" type="button" [disabled]="form.invalid || salvataggio" (click)="salva()">
+            <button
+              class="btn btn-ghost"
+              type="button"
+              (click)="chiudiModale()"
+            >
+              Annulla
+            </button>
+            <button
+              class="btn btn-primary"
+              type="button"
+              [disabled]="form.invalid || salvataggio"
+              (click)="salva()"
+            >
               {{ salvataggio ? 'Salvataggio…' : 'Salva' }}
             </button>
           </div>
@@ -147,14 +216,24 @@ export class GenericoComponent implements OnChanges {
     if (!this.config) return;
 
     const chiaviLookup = Array.from(
-      new Set(this.config.campi.map((c) => c.lookup).filter((l): l is ChiaveLookup => !!l)),
+      new Set(
+        this.config.campi
+          .map((c) => c.lookup)
+          .filter((l): l is ChiaveLookup => !!l),
+      ),
     );
     const richiesteLookup = chiaviLookup.length
-      ? forkJoin(Object.fromEntries(chiaviLookup.map((l) => [l, this.lookup.opzioni(l)])))
+      ? forkJoin(
+          Object.fromEntries(
+            chiaviLookup.map((l) => [l, this.lookup.opzioni(l)]),
+          ),
+        )
       : of({});
 
     richiesteLookup.subscribe((mappa) => {
-      this.opzioniLookup = mappa as Partial<Record<ChiaveLookup, OpzioneLookup[]>>;
+      this.opzioniLookup = mappa as Partial<
+        Record<ChiaveLookup, OpzioneLookup[]>
+      >;
       this.carica();
     });
   }
@@ -162,16 +241,22 @@ export class GenericoComponent implements OnChanges {
   carica(): void {
     if (!this.config) return;
     this.caricamento = true;
-    this.api.list<Record<string, unknown>>(this.config.chiave).subscribe((righe) => {
-      this.righe = righe;
-      this.caricamento = false;
-    });
+    this.api
+      .list<Record<string, unknown>>(this.config.chiave)
+      .subscribe((righe) => {
+        this.righe = righe;
+        this.caricamento = false;
+      });
   }
 
-  valoreVisualizzato(riga: Record<string, unknown>, campo: CampoConfig): string {
+  valoreVisualizzato(
+    riga: Record<string, unknown>,
+    campo: CampoConfig,
+  ): string {
     const valore = riga[campo.chiave];
     if (valore === null || valore === undefined || valore === '') return '—';
-    if (campo.lookup) return this.lookup.etichetta(campo.lookup, valore as number);
+    if (campo.lookup)
+      return this.lookup.etichetta(campo.lookup, valore as number);
     if (campo.opzioniStatiche) {
       const trovata = campo.opzioniStatiche.find((o) => o.valore === valore);
       if (trovata) return trovata.etichetta;

@@ -37,14 +37,26 @@
   --radius: 14px;
   --radius-sm: 10px;
 
-  --ombra-sm: 0 1px 2px rgba(20, 20, 43, 0.04), 0 1px 1px rgba(20, 20, 43, 0.03);
-  --ombra: 0 2px 6px rgba(24, 20, 60, 0.05), 0 12px 28px -12px rgba(24, 20, 60, 0.12);
-  --ombra-hover: 0 6px 16px rgba(24, 20, 60, 0.08), 0 24px 48px -16px rgba(24, 20, 60, 0.2);
+  --ombra-sm:
+    0 1px 2px rgba(20, 20, 43, 0.04), 0 1px 1px rgba(20, 20, 43, 0.03);
+  --ombra:
+    0 2px 6px rgba(24, 20, 60, 0.05), 0 12px 28px -12px rgba(24, 20, 60, 0.12);
+  --ombra-hover:
+    0 6px 16px rgba(24, 20, 60, 0.08), 0 24px 48px -16px rgba(24, 20, 60, 0.2);
   --ombra-primario: 0 8px 20px -6px rgba(109, 91, 246, 0.45);
   --ombra-accento: 0 8px 20px -6px rgba(236, 72, 153, 0.4);
 
-  --gradiente-primario: linear-gradient(135deg, var(--primario) 0%, var(--accento) 100%);
-  --gradiente-testo: linear-gradient(135deg, #6d5bf6 0%, #ec4899 60%, #f97316 120%);
+  --gradiente-primario: linear-gradient(
+    135deg,
+    var(--primario) 0%,
+    var(--accento) 100%
+  );
+  --gradiente-testo: linear-gradient(
+    135deg,
+    #6d5bf6 0%,
+    #ec4899 60%,
+    #f97316 120%
+  );
 
   --easing: cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -61,10 +73,23 @@ body {
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
   background:
-    radial-gradient(1100px 520px at 100% -8%, rgba(109, 91, 246, 0.1), transparent 60%),
-    radial-gradient(900px 480px at -8% 0%, rgba(236, 72, 153, 0.08), transparent 55%),
+    radial-gradient(
+      1100px 520px at 100% -8%,
+      rgba(109, 91, 246, 0.1),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 480px at -8% 0%,
+      rgba(236, 72, 153, 0.08),
+      transparent 55%
+    ),
     var(--bg);
   background-attachment: fixed;
   color: var(--testo);
@@ -86,7 +111,7 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: 'Manrope', 'Inter', sans-serif;
+  font-family: "Manrope", "Inter", sans-serif;
   letter-spacing: -0.02em;
 }
 
@@ -95,8 +120,12 @@ a {
 }
 
 * {
-  transition: background-color 0.15s var(--easing), border-color 0.15s var(--easing),
-    box-shadow 0.15s var(--easing), color 0.15s var(--easing), transform 0.15s var(--easing);
+  transition:
+    background-color 0.15s var(--easing),
+    border-color 0.15s var(--easing),
+    box-shadow 0.15s var(--easing),
+    color 0.15s var(--easing),
+    transform 0.15s var(--easing);
 }
 
 ::-webkit-scrollbar {
@@ -282,7 +311,7 @@ a {
   overflow: hidden;
 }
 .statistica::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0 0 auto 0;
   height: 3px;
@@ -290,7 +319,7 @@ a {
   opacity: 0.85;
 }
 .statistica .numero {
-  font-family: 'Manrope', sans-serif;
+  font-family: "Manrope", sans-serif;
   font-size: 30px;
   font-weight: 800;
   background: var(--gradiente-testo);
@@ -345,7 +374,11 @@ tbody td {
   vertical-align: middle;
 }
 tbody tr:hover {
-  background: linear-gradient(90deg, rgba(109, 91, 246, 0.05), rgba(236, 72, 153, 0.04));
+  background: linear-gradient(
+    90deg,
+    rgba(109, 91, 246, 0.05),
+    rgba(236, 72, 153, 0.04)
+  );
 }
 tbody tr:last-child td {
   border-bottom: none;
@@ -385,7 +418,7 @@ tbody tr:last-child td {
   font-size: 13.5px;
 }
 .stato-caricamento::before {
-  content: '';
+  content: "";
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -504,11 +537,11 @@ textarea {
   min-height: 92px;
   resize: vertical;
 }
-input[type='checkbox'] {
+input[type="checkbox"] {
   width: auto;
   accent-color: var(--primario);
 }
-input[type='color'] {
+input[type="color"] {
   padding: 4px;
   height: 42px;
   cursor: pointer;
@@ -536,8 +569,8 @@ select.non-valido {
   flex-wrap: wrap;
   align-items: center;
 }
-.barra-ricerca input[type='search'],
-.barra-ricerca input[type='text'] {
+.barra-ricerca input[type="search"],
+.barra-ricerca input[type="text"] {
   max-width: 320px;
 }
 .barra-ricerca select {

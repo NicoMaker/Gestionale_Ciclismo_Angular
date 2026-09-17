@@ -41,7 +41,12 @@ export const CONFIGURAZIONI_GENERICHE: EntitaConfig[] = [
     singolare: 'membro dello staff',
     campi: [
       { chiave: 'nome', etichetta: 'Nome', tipo: 'testo', obbligatorio: true },
-      { chiave: 'cognome', etichetta: 'Cognome', tipo: 'testo', obbligatorio: true },
+      {
+        chiave: 'cognome',
+        etichetta: 'Cognome',
+        tipo: 'testo',
+        obbligatorio: true,
+      },
       {
         chiave: 'ruolo',
         etichetta: 'Ruolo',
@@ -55,7 +60,12 @@ export const CONFIGURAZIONI_GENERICHE: EntitaConfig[] = [
           { valore: 'preparatore_atletico', etichetta: 'Preparatore atletico' },
         ],
       },
-      { chiave: 'squadra_id', etichetta: 'Squadra', tipo: 'select', lookup: 'squadre' },
+      {
+        chiave: 'squadra_id',
+        etichetta: 'Squadra',
+        tipo: 'select',
+        lookup: 'squadre',
+      },
     ],
   },
   {
@@ -63,7 +73,13 @@ export const CONFIGURAZIONI_GENERICHE: EntitaConfig[] = [
     titolo: 'Percorso di tappa (sprint / GPM)',
     singolare: 'punto di percorso',
     campi: [
-      { chiave: 'tappa_id', etichetta: 'Tappa', tipo: 'select', lookup: 'tappe', obbligatorio: true },
+      {
+        chiave: 'tappa_id',
+        etichetta: 'Tappa',
+        tipo: 'select',
+        lookup: 'tappe',
+        obbligatorio: true,
+      },
       { chiave: 'km', etichetta: 'Km', tipo: 'numero', passo: '0.1' },
       {
         chiave: 'tipo',
@@ -76,7 +92,12 @@ export const CONFIGURAZIONI_GENERICHE: EntitaConfig[] = [
         ],
       },
       { chiave: 'nome_luogo', etichetta: 'Luogo', tipo: 'testo' },
-      { chiave: 'categoria', etichetta: 'Categoria', tipo: 'testo', default: '' },
+      {
+        chiave: 'categoria',
+        etichetta: 'Categoria',
+        tipo: 'testo',
+        default: '',
+      },
     ],
   },
   {
@@ -93,8 +114,20 @@ export const CONFIGURAZIONI_GENERICHE: EntitaConfig[] = [
     titolo: 'Traguardi volanti',
     singolare: 'traguardo volante',
     campi: [
-      { chiave: 'tappa_id', etichetta: 'Tappa', tipo: 'select', lookup: 'tappe', obbligatorio: true },
-      { chiave: 'corridore_id', etichetta: 'Corridore', tipo: 'select', lookup: 'corridori', obbligatorio: true },
+      {
+        chiave: 'tappa_id',
+        etichetta: 'Tappa',
+        tipo: 'select',
+        lookup: 'tappe',
+        obbligatorio: true,
+      },
+      {
+        chiave: 'corridore_id',
+        etichetta: 'Corridore',
+        tipo: 'select',
+        lookup: 'corridori',
+        obbligatorio: true,
+      },
       { chiave: 'posizione', etichetta: 'Posizione', tipo: 'numero' },
       { chiave: 'punti', etichetta: 'Punti', tipo: 'numero', default: 0 },
     ],
@@ -104,8 +137,20 @@ export const CONFIGURAZIONI_GENERICHE: EntitaConfig[] = [
     titolo: 'Risultati GPM',
     singolare: 'risultato GPM',
     campi: [
-      { chiave: 'tappa_id', etichetta: 'Tappa', tipo: 'select', lookup: 'tappe', obbligatorio: true },
-      { chiave: 'corridore_id', etichetta: 'Corridore', tipo: 'select', lookup: 'corridori', obbligatorio: true },
+      {
+        chiave: 'tappa_id',
+        etichetta: 'Tappa',
+        tipo: 'select',
+        lookup: 'tappe',
+        obbligatorio: true,
+      },
+      {
+        chiave: 'corridore_id',
+        etichetta: 'Corridore',
+        tipo: 'select',
+        lookup: 'corridori',
+        obbligatorio: true,
+      },
       { chiave: 'posizione', etichetta: 'Posizione', tipo: 'numero' },
       { chiave: 'punti', etichetta: 'Punti', tipo: 'numero', default: 0 },
     ],
@@ -115,8 +160,18 @@ export const CONFIGURAZIONI_GENERICHE: EntitaConfig[] = [
     titolo: 'Abbuoni di classifica',
     singolare: 'abbuono',
     campi: [
-      { chiave: 'posizione', etichetta: 'Posizione di tappa', tipo: 'numero', obbligatorio: true },
-      { chiave: 'secondi', etichetta: 'Secondi di abbuono', tipo: 'numero', default: 0 },
+      {
+        chiave: 'posizione',
+        etichetta: 'Posizione di tappa',
+        tipo: 'numero',
+        obbligatorio: true,
+      },
+      {
+        chiave: 'secondi',
+        etichetta: 'Secondi di abbuono',
+        tipo: 'numero',
+        default: 0,
+      },
     ],
   },
   {
@@ -124,9 +179,25 @@ export const CONFIGURAZIONI_GENERICHE: EntitaConfig[] = [
     titolo: 'Penalità',
     singolare: 'penalità',
     campi: [
-      { chiave: 'corridore_id', etichetta: 'Corridore', tipo: 'select', lookup: 'corridori', obbligatorio: true },
-      { chiave: 'tappa_id', etichetta: 'Tappa', tipo: 'select', lookup: 'tappe' },
-      { chiave: 'motivo', etichetta: 'Motivo', tipo: 'testo', obbligatorio: true },
+      {
+        chiave: 'corridore_id',
+        etichetta: 'Corridore',
+        tipo: 'select',
+        lookup: 'corridori',
+        obbligatorio: true,
+      },
+      {
+        chiave: 'tappa_id',
+        etichetta: 'Tappa',
+        tipo: 'select',
+        lookup: 'tappe',
+      },
+      {
+        chiave: 'motivo',
+        etichetta: 'Motivo',
+        tipo: 'testo',
+        obbligatorio: true,
+      },
       { chiave: 'secondi', etichetta: 'Secondi', tipo: 'numero', default: 0 },
       { chiave: 'punti', etichetta: 'Punti', tipo: 'numero', default: 0 },
     ],
@@ -136,7 +207,12 @@ export const CONFIGURAZIONI_GENERICHE: EntitaConfig[] = [
     titolo: 'Biciclette',
     singolare: 'bicicletta',
     campi: [
-      { chiave: 'corridore_id', etichetta: 'Corridore', tipo: 'select', lookup: 'corridori' },
+      {
+        chiave: 'corridore_id',
+        etichetta: 'Corridore',
+        tipo: 'select',
+        lookup: 'corridori',
+      },
       { chiave: 'marca', etichetta: 'Marca', tipo: 'testo' },
       { chiave: 'modello', etichetta: 'Modello', tipo: 'testo' },
       { chiave: 'telaio', etichetta: 'Numero telaio', tipo: 'testo' },
@@ -147,8 +223,20 @@ export const CONFIGURAZIONI_GENERICHE: EntitaConfig[] = [
     titolo: 'Sponsor per squadra',
     singolare: 'collegamento sponsor',
     campi: [
-      { chiave: 'squadra_id', etichetta: 'Squadra', tipo: 'select', lookup: 'squadre', obbligatorio: true },
-      { chiave: 'sponsor_id', etichetta: 'Sponsor', tipo: 'select', lookup: 'sponsor', obbligatorio: true },
+      {
+        chiave: 'squadra_id',
+        etichetta: 'Squadra',
+        tipo: 'select',
+        lookup: 'squadre',
+        obbligatorio: true,
+      },
+      {
+        chiave: 'sponsor_id',
+        etichetta: 'Sponsor',
+        tipo: 'select',
+        lookup: 'sponsor',
+        obbligatorio: true,
+      },
       {
         chiave: 'tipo',
         etichetta: 'Tipo',
@@ -167,7 +255,13 @@ export const CONFIGURAZIONI_GENERICHE: EntitaConfig[] = [
     titolo: 'Veicoli squadra',
     singolare: 'veicolo',
     campi: [
-      { chiave: 'squadra_id', etichetta: 'Squadra', tipo: 'select', lookup: 'squadre', obbligatorio: true },
+      {
+        chiave: 'squadra_id',
+        etichetta: 'Squadra',
+        tipo: 'select',
+        lookup: 'squadre',
+        obbligatorio: true,
+      },
       {
         chiave: 'tipo',
         etichetta: 'Tipo',
@@ -189,9 +283,24 @@ export const CONFIGURAZIONI_GENERICHE: EntitaConfig[] = [
     titolo: 'Hotel',
     singolare: 'hotel',
     campi: [
-      { chiave: 'tappa_id', etichetta: 'Tappa', tipo: 'select', lookup: 'tappe' },
-      { chiave: 'squadra_id', etichetta: 'Squadra', tipo: 'select', lookup: 'squadre' },
-      { chiave: 'nome', etichetta: 'Nome hotel', tipo: 'testo', obbligatorio: true },
+      {
+        chiave: 'tappa_id',
+        etichetta: 'Tappa',
+        tipo: 'select',
+        lookup: 'tappe',
+      },
+      {
+        chiave: 'squadra_id',
+        etichetta: 'Squadra',
+        tipo: 'select',
+        lookup: 'squadre',
+      },
+      {
+        chiave: 'nome',
+        etichetta: 'Nome hotel',
+        tipo: 'testo',
+        obbligatorio: true,
+      },
       { chiave: 'citta', etichetta: 'Città', tipo: 'testo' },
       { chiave: 'indirizzo', etichetta: 'Indirizzo', tipo: 'testo' },
     ],
@@ -201,8 +310,19 @@ export const CONFIGURAZIONI_GENERICHE: EntitaConfig[] = [
     titolo: 'Meteo di tappa',
     singolare: 'previsione meteo',
     campi: [
-      { chiave: 'tappa_id', etichetta: 'Tappa', tipo: 'select', lookup: 'tappe', obbligatorio: true },
-      { chiave: 'temperatura', etichetta: 'Temperatura (°C)', tipo: 'numero', passo: '0.1' },
+      {
+        chiave: 'tappa_id',
+        etichetta: 'Tappa',
+        tipo: 'select',
+        lookup: 'tappe',
+        obbligatorio: true,
+      },
+      {
+        chiave: 'temperatura',
+        etichetta: 'Temperatura (°C)',
+        tipo: 'numero',
+        passo: '0.1',
+      },
       {
         chiave: 'condizione',
         etichetta: 'Condizione',
@@ -216,7 +336,12 @@ export const CONFIGURAZIONI_GENERICHE: EntitaConfig[] = [
           { valore: 'neve', etichetta: 'Neve' },
         ],
       },
-      { chiave: 'vento_kmh', etichetta: 'Vento (km/h)', tipo: 'numero', passo: '0.1' },
+      {
+        chiave: 'vento_kmh',
+        etichetta: 'Vento (km/h)',
+        tipo: 'numero',
+        passo: '0.1',
+      },
     ],
   },
   {
@@ -239,7 +364,12 @@ export const CONFIGURAZIONI_GENERICHE: EntitaConfig[] = [
           { valore: 'online', etichetta: 'Online' },
         ],
       },
-      { chiave: 'tappa_id', etichetta: 'Tappa', tipo: 'select', lookup: 'tappe' },
+      {
+        chiave: 'tappa_id',
+        etichetta: 'Tappa',
+        tipo: 'select',
+        lookup: 'tappe',
+      },
     ],
   },
   {
@@ -247,10 +377,20 @@ export const CONFIGURAZIONI_GENERICHE: EntitaConfig[] = [
     titolo: 'Comunicati stampa',
     singolare: 'comunicato',
     campi: [
-      { chiave: 'titolo', etichetta: 'Titolo', tipo: 'testo', obbligatorio: true },
+      {
+        chiave: 'titolo',
+        etichetta: 'Titolo',
+        tipo: 'testo',
+        obbligatorio: true,
+      },
       { chiave: 'contenuto', etichetta: 'Contenuto', tipo: 'textarea' },
       { chiave: 'data', etichetta: 'Data', tipo: 'data' },
-      { chiave: 'tappa_id', etichetta: 'Tappa', tipo: 'select', lookup: 'tappe' },
+      {
+        chiave: 'tappa_id',
+        etichetta: 'Tappa',
+        tipo: 'select',
+        lookup: 'tappe',
+      },
     ],
   },
 ];

@@ -3,7 +3,13 @@ import { Component, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { ApiService } from '../../core/api.service';
-import { Corridore, Squadra, Tappa, VoceClassificaTempo, VoceCestino } from '../../core/models';
+import {
+  Corridore,
+  Squadra,
+  Tappa,
+  VoceClassificaTempo,
+  VoceCestino,
+} from '../../core/models';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,7 +18,10 @@ import { Corridore, Squadra, Tappa, VoceClassificaTempo, VoceCestino } from '../
   template: `
     <div class="view-head">
       <h1>Dashboard</h1>
-      <p>Panoramica generale del gestionale — dati letti in tempo reale dalle API del backend.</p>
+      <p>
+        Panoramica generale del gestionale — dati letti in tempo reale dalle API
+        del backend.
+      </p>
     </div>
 
     @if (caricamento) {
@@ -60,7 +69,11 @@ import { Corridore, Squadra, Tappa, VoceClassificaTempo, VoceCestino } from '../
                 </tr>
               </thead>
               <tbody>
-                @for (v of classificaTempo.slice(0, 5); track v.id; let i = $index) {
+                @for (
+                  v of classificaTempo.slice(0, 5);
+                  track v.id;
+                  let i = $index
+                ) {
                   <tr>
                     <td>{{ i + 1 }}</td>
                     <td>{{ v.cognome }} {{ v.nome }}</td>
@@ -80,10 +93,16 @@ import { Corridore, Squadra, Tappa, VoceClassificaTempo, VoceCestino } from '../
           </div>
           @if (prossimaTappa) {
             <div class="prossima-tappa">
-              <div class="prossima-tappa-numero">Tappa {{ prossimaTappa.numero_tappa }}</div>
+              <div class="prossima-tappa-numero">
+                Tappa {{ prossimaTappa.numero_tappa }}
+              </div>
               <h4>{{ prossimaTappa.nome }}</h4>
-              <p class="testo-soft">{{ prossimaTappa.partenza }} → {{ prossimaTappa.arrivo }}</p>
-              <p class="testo-soft" *ngIf="prossimaTappa.data">{{ prossimaTappa.data }}</p>
+              <p class="testo-soft">
+                {{ prossimaTappa.partenza }} → {{ prossimaTappa.arrivo }}
+              </p>
+              <p class="testo-soft" *ngIf="prossimaTappa.data">
+                {{ prossimaTappa.data }}
+              </p>
               <span class="badge badge-viola">{{ prossimaTappa.tipo }}</span>
             </div>
           } @else {
@@ -159,7 +178,9 @@ export class DashboardComponent implements OnInit {
       corridori: this.api.list<Corridore>('corridori'),
       squadre: this.api.list<Squadra>('squadre'),
       cestino: this.api.list<VoceCestino>('cestino'),
-      classificaTempo: this.api.ottieniPercorso<VoceClassificaTempo[]>('risultati/classifica-tempo'),
+      classificaTempo: this.api.ottieniPercorso<VoceClassificaTempo[]>(
+        'risultati/classifica-tempo',
+      ),
     }).subscribe((risultati) => {
       this.tappe = risultati.tappe;
       this.corridori = risultati.corridori;

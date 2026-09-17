@@ -24,9 +24,14 @@ import { ModalComponent } from '../../shared/modal.component';
       <div class="view-head view-head-riga">
         <div>
           <h1>Tappa {{ tappa.numero_tappa }} — {{ tappa.nome }}</h1>
-          <p>{{ tappa.partenza }} → {{ tappa.arrivo }} · {{ tappa.distanza_km ?? '—' }} km</p>
+          <p>
+            {{ tappa.partenza }} → {{ tappa.arrivo }} ·
+            {{ tappa.distanza_km ?? '—' }} km
+          </p>
         </div>
-        <button class="btn btn-primary" type="button" (click)="apriNuovo()">+ Aggiungi risultato</button>
+        <button class="btn btn-primary" type="button" (click)="apriNuovo()">
+          + Aggiungi risultato
+        </button>
       </div>
 
       @if (risultati.length === 0) {
@@ -51,13 +56,28 @@ import { ModalComponent } from '../../shared/modal.component';
               @for (r of risultati; track r.id) {
                 <tr>
                   <td>{{ r.posizione ?? '—' }}</td>
-                  <td>{{ r.cognome }} {{ r.nome }} <span class="testo-soft">#{{ r.numero_pettorale }}</span></td>
+                  <td>
+                    {{ r.cognome }} {{ r.nome }}
+                    <span class="testo-soft">#{{ r.numero_pettorale }}</span>
+                  </td>
                   <td>{{ r.squadra_nome || '—' }}</td>
                   <td>{{ r.tempo || '—' }}</td>
                   <td>{{ r.punti }}</td>
                   <td class="col-azioni">
-                    <button class="btn btn-secondary btn-sm" type="button" (click)="apriModifica(r)">Modifica</button>
-                    <button class="btn btn-danger btn-sm" type="button" (click)="elimina(r)">Elimina</button>
+                    <button
+                      class="btn btn-secondary btn-sm"
+                      type="button"
+                      (click)="apriModifica(r)"
+                    >
+                      Modifica
+                    </button>
+                    <button
+                      class="btn btn-danger btn-sm"
+                      type="button"
+                      (click)="elimina(r)"
+                    >
+                      Elimina
+                    </button>
                   </td>
                 </tr>
               }
@@ -68,13 +88,20 @@ import { ModalComponent } from '../../shared/modal.component';
     }
 
     @if (modaleAperto) {
-      <app-modal [titolo]="form.value.id ? 'Modifica risultato' : 'Nuovo risultato'" (chiudi)="chiudiModale()">
+      <app-modal
+        [titolo]="form.value.id ? 'Modifica risultato' : 'Nuovo risultato'"
+        (chiudi)="chiudiModale()"
+      >
         <form [formGroup]="form" class="form-grid">
           <div class="campo largo">
             <label for="corridore">Corridore</label>
             <select id="corridore" formControlName="corridore_id">
               @for (c of corridoriSelezionabili; track c.id) {
-                <option [ngValue]="c.id">{{ c.cognome }} {{ c.nome }} (#{{ c.numero_pettorale ?? '—' }})</option>
+                <option [ngValue]="c.id">
+                  {{ c.cognome }} {{ c.nome }} (#{{
+                    c.numero_pettorale ?? '—'
+                  }})
+                </option>
               }
             </select>
           </div>
@@ -84,7 +111,12 @@ import { ModalComponent } from '../../shared/modal.component';
           </div>
           <div class="campo">
             <label for="tempo">Tempo (HH:MM:SS)</label>
-            <input id="tempo" type="text" placeholder="04:32:10" formControlName="tempo" />
+            <input
+              id="tempo"
+              type="text"
+              placeholder="04:32:10"
+              formControlName="tempo"
+            />
           </div>
           <div class="campo">
             <label for="punti">Punti</label>
@@ -92,8 +124,15 @@ import { ModalComponent } from '../../shared/modal.component';
           </div>
         </form>
         <div modal-footer>
-          <button class="btn btn-ghost" type="button" (click)="chiudiModale()">Annulla</button>
-          <button class="btn btn-primary" type="button" [disabled]="form.invalid || salvataggio" (click)="salva()">
+          <button class="btn btn-ghost" type="button" (click)="chiudiModale()">
+            Annulla
+          </button>
+          <button
+            class="btn btn-primary"
+            type="button"
+            [disabled]="form.invalid || salvataggio"
+            (click)="salva()"
+          >
             {{ salvataggio ? 'Salvataggio…' : 'Salva' }}
           </button>
         </div>
@@ -143,20 +182,32 @@ export class RisultatiTappaComponent implements OnChanges {
   ngOnChanges(): void {
     if (!this.id) return;
     this.caricamento = true;
-    this.api.ottieni<Tappa>('tappe', this.id).subscribe((t) => (this.tappa = t));
-    this.api.list<Corridore>('corridori').subscribe((c) => (this.tuttiCorridori = c));
+    this.api
+      .ottieni<Tappa>('tappe', this.id)
+      .subscribe((t) => (this.tappa = t));
+    this.api
+      .list<Corridore>('corridori')
+      .subscribe((c) => (this.tuttiCorridori = c));
     this.caricaRisultati();
   }
 
   caricaRisultati(): void {
-    this.api.ottieniPercorso<Risultato[]>(`risultati/tappa/${this.id}`).subscribe((r) => {
-      this.risultati = r;
-      this.caricamento = false;
-    });
+    this.api
+      .ottieniPercorso<Risultato[]>(`risultati/tappa/${this.id}`)
+      .subscribe((r) => {
+        this.risultati = r;
+        this.caricamento = false;
+      });
   }
 
   apriNuovo(): void {
-    this.form.reset({ id: null, corridore_id: null, posizione: null, tempo: '', punti: 0 });
+    this.form.reset({
+      id: null,
+      corridore_id: null,
+      posizione: null,
+      tempo: '',
+      punti: 0,
+    });
     this.modaleAperto = true;
   }
 
@@ -180,7 +231,9 @@ export class RisultatiTappaComponent implements OnChanges {
     this.salvataggio = true;
     const { id, ...valori } = this.form.getRawValue();
     const corpo = { ...valori, tappa_id: this.tappa.id, distacco: '00:00:00' };
-    const richiesta = id ? this.api.aggiorna('risultati', id, corpo) : this.api.crea('risultati', corpo);
+    const richiesta = id
+      ? this.api.aggiorna('risultati', id, corpo)
+      : this.api.crea('risultati', corpo);
     richiesta.subscribe({
       next: () => {
         this.toast.successo('Risultato salvato.');

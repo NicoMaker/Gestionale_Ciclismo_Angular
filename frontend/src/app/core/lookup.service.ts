@@ -26,7 +26,10 @@ export interface OpzioneLookup {
 @Injectable({ providedIn: 'root' })
 export class LookupService {
   private api = inject(ApiService);
-  private cacheOsservabili = new Map<ChiaveLookup, Observable<OpzioneLookup[]>>();
+  private cacheOsservabili = new Map<
+    ChiaveLookup,
+    Observable<OpzioneLookup[]>
+  >();
   private cacheMappe = new Map<ChiaveLookup, Map<number, string>>();
 
   opzioni(chiave: ChiaveLookup): Observable<OpzioneLookup[]> {
@@ -47,7 +50,10 @@ export class LookupService {
   }
 
   /** Etichetta leggibile per un id già in cache (chiamare opzioni() prima). */
-  etichetta(chiave: ChiaveLookup, id: number | string | null | undefined): string {
+  etichetta(
+    chiave: ChiaveLookup,
+    id: number | string | null | undefined,
+  ): string {
     if (id === null || id === undefined || id === '') return '—';
     const idNumerico = Number(id);
     const mappa = this.cacheMappe.get(chiave);
@@ -60,7 +66,10 @@ export class LookupService {
     this.cacheMappe.delete(chiave);
   }
 
-  private aOpzione(chiave: ChiaveLookup, r: Record<string, unknown>): OpzioneLookup {
+  private aOpzione(
+    chiave: ChiaveLookup,
+    r: Record<string, unknown>,
+  ): OpzioneLookup {
     const id = Number(r['id']);
     switch (chiave) {
       case 'corridori': {
@@ -71,7 +80,10 @@ export class LookupService {
         };
       }
       case 'tappe':
-        return { valore: id, etichetta: `Tappa ${r['numero_tappa']} — ${r['nome']}` };
+        return {
+          valore: id,
+          etichetta: `Tappa ${r['numero_tappa']} — ${r['nome']}`,
+        };
       case 'nazioni':
         return { valore: id, etichetta: `${r['nome']} (${r['codice_iso2']})` };
       case 'squadre':
