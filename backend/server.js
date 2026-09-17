@@ -60,7 +60,7 @@ app.get("/", (req, res) => {
   res.json({
     nome: "Gestionale Ciclismo — API",
     stato: "attivo",
-    frontend: "Servito separatamente dall'app Angular (frontend-angular/)",
+    frontend: "Servito separatamente dall'app Angular (frontend/)",
     api: "/api/*",
     socket_io: "Eventi realtime su questa stessa porta",
   });
